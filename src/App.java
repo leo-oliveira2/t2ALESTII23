@@ -1,5 +1,3 @@
-import java.math.BigInteger;
-import java.util.*;
 public class App {
     public static void main(String[] args) throws Exception {
         EdgeWeightedGraph graph = new EdgeWeightedGraph("casoteste.txt"); 
@@ -7,9 +5,9 @@ public class App {
 
         Dijkstra d = new Dijkstra(graph);
 
-        BigInteger qtdHidrogenioMinima = d.hidrogenioMinimo("hidrogenio", "ouro");
+        double qtdHidrogenioMinima = d.hidrogenioMinimo("hidrogenio", "ouro");
 
-        if(qtdHidrogenioMinima.compareTo(BigInteger.valueOf(-1)) != 0){
+        if(qtdHidrogenioMinima >= 0){
             System.out.println("A quantidade mínima de hidrogênio para produzir uma unidade de ouro é: " + qtdHidrogenioMinima);
         }else{
             System.out.println("Caminho não encontrado");

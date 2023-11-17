@@ -1,51 +1,42 @@
-import java.math.BigInteger;
 import java.util.*;
 
 public class Dijkstra {
-    private EdgeWeightedGraph grafo;
+    private EdgeWeightedGraph graph;
 
-    public Dijkstra(EdgeWeightedGraph grafo) {
-        this.grafo = grafo;
+    public Dijkstra(EdgeWeightedGraph graph) {
+        this.graph = graph;
     }
 
-    public BigInteger hidrogenioMinimo(String verticeInicial, String verticeFinal) {
-        Map<String, BigInteger> distancias = new HashMap<>();
-        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingDouble(n -> n.distancia));
+    public double hidrogenioMinimo(String verticeInicial, String verticeFinal) {
+        Map<String, Double> distancias = new HashMap<>();
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(Comparator.comparingDouble(n -> n.distancia));
 
-        for (String vertex : grafo.getVerts()){
-            distancias.put(vertex, BigInteger.valueOf(Integer.MAX_VALUE));
+        for (String vertice : graph.getVerts()) {
+            distancias.put(vertice, Double.POSITIVE_INFINITY);
         }
 
-        distancias.put(verticeInicial, BigInteger.ZERO);
-        pq.add(new Node(verticeInicial, 0));
+        distancias.put(verticeInicial, 0.0);
+        priorityQueue.add(new Node(verticeInicial, 0));
 
-        while (!pq.isEmpty()) {
-            Node nodoAtual = pq.poll();
+        while (!priorityQueue.isEmpty()) {
+            Node nodoAtual = priorityQueue.poll();
 
             if (nodoAtual.vertice.equals(verticeFinal)) {
                 return distancias.get(verticeFinal);
             }
 
-            for (Edge arestaVizinha : grafo.getAdj(nodoAtual.vertice)) {
-                String vizinho = arestaVizinha.getW();
-                BigInteger newDistance = distancias.get(nodoAtual.vertice)
-                        .add(BigInteger.valueOf((long) arestaVizinha.getWeight()))
-                        .multiply(BigInteger.valueOf((long) getHydrogenMultiplier(arestaVizinha)));
-                if (newDistance.compareTo(distancias.get(vizinho)) < 0){
-                    distancias.put(vizinho, newDistance);
-                    pq.add(new Node(vizinho, newDistance.doubleValue()));
+            for (Edge aresta : graph.getAdj(nodoAtual.vertice)) {
+                String nodoVizinho = aresta.getW();
+                double novaDistancia = distancias.get(nodoAtual.vertice) + aresta.getWeight();
+
+                if (novaDistancia < distancias.get(nodoVizinho)) {
+                    distancias.put(nodoVizinho, novaDistancia);
+                    priorityQueue.add(new Node(nodoVizinho, novaDistancia));
                 }
             }
         }
 
-        return BigInteger.valueOf(-1); // Se não houver caminho, retorne um valor indicando isso
-    }
-
-    private double getHydrogenMultiplier(Edge edge) {
-        // Lógica para obter o multiplicador de hidrogênio
-        // Neste exemplo, assumimos que o multiplicador é o custo do próximo elemento
-        // Substitua essa lógica com base nos requisitos específicos do seu problema
-        return edge.getWeight();
+        return -1; // Se não houver caminho, retorne um valor indicando isso
     }
 
     private static class Node {
