@@ -1,5 +1,7 @@
 public class App {
     public static void main(String[] args) throws Exception {
+
+        //DIJKSTRA
         EdgeWeightedGraph graph = new EdgeWeightedGraph("casoteste.txt"); 
         System.out.println(graph.toDot());
 
@@ -12,5 +14,20 @@ public class App {
         }else{
             System.out.println("Caminho não encontrado");
         }
+
+        //BFS
+
+        BFS bfs = new BFS(graph);
+        String startVertex = "hidrogenio";
+        String endVertex = "ouro";
+
+        double minimumHydrogen = bfs.hidrogenioMinimo(startVertex, endVertex);
+
+        if (minimumHydrogen >= 0) {
+            System.out.println("BFS A quantidade mínima de hidrogênio para produzir ouro é: " + minimumHydrogen);
+        } else {
+            System.out.println("BFS Não há caminho para produzir ouro a partir do hidrogênio.");
+        }
+        
     }
-}
+} 
