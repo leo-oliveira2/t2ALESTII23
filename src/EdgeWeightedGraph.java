@@ -20,8 +20,13 @@ public class EdgeWeightedGraph {
     In in = new In(filename);
     String line;
     while ((line = in.readLine()) != null) {
-      String[] edge = line.split(" ");
-      addEdge(edge[1], edge[2], Double.parseDouble(edge[2]));
+        String[] partes = line.split(" -> ");
+        String[] verticesOrigem = partes[0].split(" ");
+        String[] verticeAlvo = partes[1].split(" ");
+
+        for (int i = 0; i < verticesOrigem.length-1; i+=2){
+          addEdge(verticesOrigem[i+1], verticeAlvo[1], Double.parseDouble(verticesOrigem[i]));
+        }
     }
     in.close();
   }
