@@ -25,13 +25,13 @@ public class EdgeWeightedGraph {
         String[] verticeAlvo = partes[1].split(" ");
 
         for (int i = 0; i < verticesOrigem.length-1; i+=2){
-          addEdge(verticesOrigem[i+1], verticeAlvo[1], Double.parseDouble(verticesOrigem[i]));
+          addEdge(verticesOrigem[i+1], verticeAlvo[1], Long.parseLong(verticesOrigem[i]));
         }
     }
     in.close();
   }
 
-  public void addEdge(String v, String w, double weight) {
+  public void addEdge(String v, String w, long weight) {
     Edge e = new Edge(v, w, weight);
     addToList(v, e);
     addToList(w, e);
@@ -63,7 +63,7 @@ public class EdgeWeightedGraph {
     sb.append("rankdir = LR;" + NEWLINE);
     sb.append("node [shape = circle];" + NEWLINE);
     for (Edge e : getEdges())
-      sb.append(String.format("%s -- %s [label=\"%.3f\"]", e.getV(), e.getW(), e.getWeight()) + NEWLINE);
+      sb.append(String.format("%s -- %s [label=\"%.0f\"]", e.getV(), e.getW(), e.getWeight()) + NEWLINE);
     sb.append("}" + NEWLINE);
     return sb.toString();
   }

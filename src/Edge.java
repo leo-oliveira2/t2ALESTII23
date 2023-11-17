@@ -1,9 +1,9 @@
-public class Edge implements Comparable<Edge> {
+public class Edge{
   private String v;
   private String w;
-  private double weight;
+  private long weight;
 
-  public Edge(String v, String w, double weight) {
+  public Edge(String v, String w, long weight) {
     this.v = v;
     this.w = w;
     this.weight = weight;
@@ -21,10 +21,10 @@ public class Edge implements Comparable<Edge> {
     return weight;
   }
 
-  @Override
-  public int compareTo(Edge other) {
-    return Double.compare(this.weight, other.weight);
-  }
+  // @Override
+  // public int compareTo(Edge other) {
+  //   return BigInteger.compare(this.weight, other.weight);
+  // }
 
   @Override
   public String toString() {
