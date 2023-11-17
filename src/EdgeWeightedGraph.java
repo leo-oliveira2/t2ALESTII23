@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EdgeWeightedGraph {
   protected static final String NEWLINE = System.getProperty("line.separator");
@@ -20,7 +21,7 @@ public class EdgeWeightedGraph {
     String line;
     while ((line = in.readLine()) != null) {
       String[] edge = line.split(" ");
-      addEdge(edge[0], edge[1], Double.parseDouble(edge[2]));
+      addEdge(edge[1], edge[2], Double.parseDouble(edge[2]));
     }
     in.close();
   }
@@ -41,7 +42,7 @@ public class EdgeWeightedGraph {
 
   public Iterable<Edge> getEdges() {
     Set<Edge> ed = new HashSet<>();
-    for (String v : getVerts().stream().sorted().toList()) {
+    for (String v : getVerts().stream().sorted().collect(Collectors.toList())){
       for (Edge e : getAdj(v)) {
         if (!ed.contains(e)) {
           ed.add(e);
