@@ -1,9 +1,11 @@
+import java.math.BigInteger;
+
 public class Edge{
   private String v;
   private String w;
-  private long weight;
+  private BigInteger weight;
 
-  public Edge(String v, String w, long weight) {
+  public Edge(String v, String w, BigInteger weight) {
     this.v = v;
     this.w = w;
     this.weight = weight;
@@ -17,7 +19,7 @@ public class Edge{
     return w;
   }
 
-  public double getWeight() {
+  public BigInteger getWeight() {
     return weight;
   }
 
