@@ -6,9 +6,7 @@ public class App {
         System.out.println(graph.toDot());
 
         // Dijkstra d = new Dijkstra(graph);
-        System.out.println(graph.countHydrogens("ouro"));
-
-        // Adiciona um atraso de 3 segundos
+        System.out.println(graph.contagemHidrogenio("ouro"));
         
 
         long fina = System.currentTimeMillis();

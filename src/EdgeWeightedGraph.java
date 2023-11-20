@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EdgeWeightedGraph {
   protected static final String NEWLINE = System.getProperty("line.separator");
@@ -23,25 +24,23 @@ public class EdgeWeightedGraph {
     totalVertices = totalEdges = 0;
   }
 
-
-public EdgeWeightedGraph(String filename) {
+  public EdgeWeightedGraph(String filename) {
     this();
-    try(BufferedReader br = new BufferedReader(new FileReader(filename))){
-        String line = "";
-        while ((line = br.readLine()) != null){
-            String[] partes = line.split(" -> ");
-            String[] verticesOrigem = partes[0].split(" ");
-            String[] verticesAlvos = partes[1].split(" ");
-            BigInteger pesoAcumulado = BigInteger.ZERO;
+    try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+      String line = "";
+      while ((line = br.readLine()) != null) {
+        String[] partes = line.split(" -> ");
+        String[] verticesOrigem = partes[0].split(" ");
+        String[] verticesAlvos = partes[1].split(" ");
 
-            for (int i = 0; i < verticesOrigem.length-1; i+=2){
-                addEdge(verticesOrigem[i+1], verticesAlvos[1], new BigInteger(verticesOrigem[i]));
-            }
-        }    
-    }catch(IOException e){
-        System.err.println(e.getMessage());
+        for (int i = 0; i < verticesOrigem.length - 1; i += 2) {
+          addEdge(verticesOrigem[i + 1], verticesAlvos[1], new BigInteger(verticesOrigem[i]));
+        }
+      }
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
     }
-}
+  }
 
   public void addEdge(String v, String w, BigInteger weight) {
     Edge e = new Edge(v, w, weight);
@@ -79,7 +78,7 @@ public EdgeWeightedGraph(String filename) {
 
   public Iterable<Edge> getEdges() {
     Set<Edge> ed = new HashSet<>();
-    for (String v : getVerts().stream().sorted().toList()) {
+    for (String v : getVerts().stream().sorted().collect(Collectors.toList())) {
       for (Edge e : getAdj(v)) {
         if (!ed.contains(e)) {
           ed.add(e);
@@ -89,22 +88,22 @@ public EdgeWeightedGraph(String filename) {
     return ed;
   }
 
-  public BigInteger countHydrogens(String element) {
-    if (element.equals("hidrogenio")) {
-        return BigInteger.ONE;
+  public BigInteger contagemHidrogenio(String verticeAlvo) {
+    if (verticeAlvo.equals("hidrogenio")) {
+      return BigInteger.ONE;
     }
 
-    BigInteger totalHydrogens = BigInteger.ZERO;
+    BigInteger hidrogenioTotal = BigInteger.ZERO;
     for (Edge e : getEdges()) {
-        if (e.getW().equals(element)) {
-            BigInteger weight = e.getWeight();
-            BigInteger subHydrogens = countHydrogens(e.getV());
-            totalHydrogens = totalHydrogens.add(weight.multiply(subHydrogens));
-        }
+      if (e.getW().equals(verticeAlvo)){
+        BigInteger peso = e.getWeight();
+        BigInteger hidrogenio = contagemHidrogenio(e.getV());
+        hidrogenioTotal = hidrogenioTotal.add(peso.multiply(hidrogenio));
+      }
     }
 
-    return totalHydrogens;
-}
+    return hidrogenioTotal;
+  }
 
   public String toDot() {
     StringBuilder sb = new StringBuilder();
